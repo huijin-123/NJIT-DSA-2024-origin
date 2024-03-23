@@ -91,6 +91,20 @@ public class KeyValueArray<K extends Comparable<K>, V> implements Dictionary<K,V
 
    @Override
    public void compress() throws OutOfMemoryError {
+      // Check if there are no null elements in the array
+      boolean hasNull = false;
+      for (int i = 0; i < count; i++) {
+         if (pairs[i] == null) {
+            hasNull = true;
+            break;
+         }
+      }
+
+      if (!hasNull) {
+         // No null elements, no need to compress
+         return;
+      }
+
       // First partition the null's to the end of the array.
       int indexOfFirstNull = Algorithms.partitionByRule(pairs, count, element -> element == null);
       // Then reallocate using the index from partitioning, pointing the first null in the array.
