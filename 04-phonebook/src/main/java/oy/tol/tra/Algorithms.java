@@ -6,18 +6,27 @@ import java.util.function.Predicate;
 
 
 public class Algorithms {
+    public static <T> void reverse(T[] array) {
+        int i = 0;
+        while (i < array.length / 2) {
+            T temp = array[i];
+            array[i] = array[array.length - i - 1];
+            array[array.length - i - 1] = temp;
+            i++;
+        }
+    }
 
     public static <T extends Comparable<T>> void fastSort(T[] array){
         if(array == null || array.length == 0){
             return;
         }
-        fastSort(array, 0, array.length - 1);
+        quickSort(array, 0, array.length - 1);
     }
-    private static <T extends Comparable<T>> void fastSort(T[] array, int start, int end){
+    private static <T extends Comparable<T>> void quickSort(T[] array, int start, int end){
         if(start < end){
             int pivotIndex = partition(array, start, end);
-            fastSort(array, start, pivotIndex - 1);
-            fastSort(array, pivotIndex + 1, end);
+            quickSort(array, start, pivotIndex - 1);
+            quickSort(array, pivotIndex + 1, end);
         }
     }
     private static <T extends Comparable<T>> int partition(T[] array, int start, int end){
